@@ -1,0 +1,52 @@
+.app-root {
+    -fx-background-color: #f4f7fb;
+    -fx-font-family: "Segoe UI", "Noto Sans", sans-serif;
+}
+
+.sidebar {
+    -fx-background-color: #1f2937;
+    -fx-padding: 24 16 24 16;
+    -fx-pref-width: 220;
+}
+
+.brand {
+    -fx-text-fill: white;
+    -fx-font-size: 20;
+    -fx-font-weight: bold;
+    -fx-padding: 0 0 18 8;
+}
+
+.nav-button {
+    -fx-background-color: transparent;
+    -fx-text-fill: #e5e7eb;
+    -fx-padding: 12;
+    -fx-font-size: 14;
+    -fx-alignment: CENTER_LEFT;
+}
+
+.nav-button:hover {
+    -fx-background-color: #374151;
+}
+
+.page-title {
+    -fx-font-size: 28;
+    -fx-font-weight: bold;
+    -fx-text-fill: #111827;
+}
+
+.content-card {
+    -fx-background-color: white;
+    -fx-background-radius: 10;
+    -fx-padding: 24;
+    -fx-effect: dropshadow(gaussian, rgba(15, 23, 42, 0.12), 12, 0.12, 0, 3);
+}
+
+.card-title {
+    -fx-font-size: 18;
+    -fx-font-weight: bold;
+}
+
+.status-label {
+    -fx-text-fill: #2563eb;
+    -fx-font-weight: bold;
+}
