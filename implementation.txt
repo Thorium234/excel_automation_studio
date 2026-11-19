@@ -1,0 +1,28 @@
+Initialize Maven project
+
+Establish Java 21, JavaFX, dependencies, packages and application entry point.
+First implementation
+
+
+
+Implement MouseController
+
+Isolated implementation and tests.
+
+
+
+Implement KeyboardController
+
+Isolated implementation and tests.
+
+
+
+Build Excel task engine
+
+Models, datasets, formulas and validation.
+
+
+
+Integrate desktop interaction
+
+Connect the components and test against a dedicated spreadsheet.
