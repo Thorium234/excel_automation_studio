@@ -1,28 +1,21 @@
-Initialize Maven project
+Excel Automation Studio - implementation checklist
 
-Establish Java 21, JavaFX, dependencies, packages and application entry point.
-First implementation
+Follow the roadmap in README.md. Each phase is completed and verified before the
+next one begins. See docs/IMPLEMENTATION_STATUS.md for evidence and limitations.
 
+[x] Phase 1  - Foundation: Java 21, Maven, JavaFX shell, navigation, settings, logging
+[x] Phase 2  - MouseController: movement, clicks, drag, scroll + tests
+[x] Phase 3  - KeyboardController: typing, keys, shortcuts, safe release + tests
+[x] Phase 4  - DesktopController: coordination, cancellation, cleanup + tests
+[x] Phase 5  - Excel task engine: models, datasets, formulas, task generation
+[x] Phase 6  - Excel desktop interaction: Name Box navigation, editing, formatting
+[x] Phase 7  - Validation: POI workbook inspection, formula and result checks
+[x] Phase 8  - Session management: presets, custom duration, pause/resume/stop
+[x] Phase 9  - Reporting and history: Markdown session reports and history screen
+[ ] Phase 10 - Programming automation: future work, not part of the initial MVP
 
-
-Implement MouseController
-
-Isolated implementation and tests.
-
-
-
-Implement KeyboardController
-
-Isolated implementation and tests.
-
-
-
-Build Excel task engine
-
-Models, datasets, formulas and validation.
-
-
-
-Integrate desktop interaction
-
-Connect the components and test against a dedicated spreadsheet.
+Notes:
+- Live spreadsheet interaction is implemented but cannot be automated-tested here
+  because no spreadsheet application is installed.
+- Maven dependency resolution is unavailable in this environment; compilation and
+  the JUnit suite are run directly against the cached jars.

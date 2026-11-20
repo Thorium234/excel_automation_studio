@@ -11,8 +11,9 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.release>21</maven.compiler.release>
-        <javafx.version>21.0.5</javafx.version>
-        <junit.version>5.11.3</junit.version>
+        <javafx.version>21.0.6</javafx.version>
+        <junit.version>5.11.4</junit.version>
+        <poi.version>5.4.1</poi.version>
     </properties>
 
     <dependencies>
@@ -25,6 +26,11 @@
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-fxml</artifactId>
             <version>${javafx.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.poi</groupId>
+            <artifactId>poi-ooxml</artifactId>
+            <version>${poi.version}</version>
         </dependency>
         <dependency>
             <groupId>org.slf4j</groupId>

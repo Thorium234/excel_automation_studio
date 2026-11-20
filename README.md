@@ -14,7 +14,10 @@
 | Storage | Local filesystem |
 | Future Database | SQLite (optional) |
 | Current Version | 0.1.0 |
-| Development Status | Planning |
+| Development Status | MVP complete (Phases 1-9); Phase 10 future |
+
+See [docs/IMPLEMENTATION_STATUS.md](docs/IMPLEMENTATION_STATUS.md) for per-phase
+implementation and verification details.
 
 ---
 
@@ -336,6 +339,7 @@ Initial supported functions:
 - COUNTA
 - COUNTIF
 - COUNTIFS
+- SUMIF
 
 **Lookup**
 - VLOOKUP

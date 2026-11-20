@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<ScrollPane xmlns="http://javafx.com/javafx/21"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.excelstudio.controller.ExcelController"
+            fitToWidth="true"
+            styleClass="scroll-area">
+    <VBox styleClass="content-card" spacing="14">
+        <Label text="Excel practice" styleClass="card-title"/>
+        <Label text="Generate an exercise, run it in a fresh practice workbook, then let the validator inspect the saved file. Your own workbooks are never opened or modified."
+               wrapText="true" styleClass="card-subtitle"/>
+
+        <HBox spacing="10" alignment="CENTER_LEFT">
+            <Label text="Category" styleClass="field-label" minWidth="70"/>
+            <ComboBox fx:id="categoryCombo" prefWidth="190"/>
+            <Label text="Difficulty" styleClass="field-label"/>
+            <ComboBox fx:id="difficultyCombo" prefWidth="140"/>
+            <Button fx:id="generateButton" text="Generate task" onAction="#generateTask"
+                    styleClass="primary-button"/>
+        </HBox>
+
+        <HBox spacing="8" alignment="CENTER_LEFT">
+            <Button fx:id="runButton" text="Run and validate" onAction="#runTask"
+                    styleClass="primary-button"/>
+            <Button fx:id="openButton" text="Open workbook" onAction="#openWorkbook"
+                    styleClass="secondary-button"/>
+            <Button fx:id="validateButton" text="Validate saved file" onAction="#validateWorkbook"
+                    styleClass="secondary-button"/>
+        </HBox>
+
+        <VBox spacing="6" styleClass="info-block">
+            <Label fx:id="taskName" text="No task generated" styleClass="card-title-small"/>
+            <Label fx:id="taskDescription" text="Choose a category and difficulty, then generate a task."
+                   wrapText="true" styleClass="card-subtitle"/>
+            <Label fx:id="taskMeta" text="" wrapText="true" styleClass="card-subtitle"/>
+            <ListView fx:id="stepsList" prefHeight="130"/>
+        </VBox>
+
+        <VBox spacing="6" styleClass="info-block">
+            <Label text="Execution status" styleClass="card-title-small"/>
+            <Label fx:id="executionStatus" text="No task has been run." wrapText="true"/>
+            <Label text="Saved workbook" styleClass="field-label"/>
+            <Label fx:id="workbookPath" text="No workbook yet." wrapText="true" styleClass="field-value"/>
+            <Label text="Validation results" styleClass="field-label"/>
+            <TextArea fx:id="validationOutput" editable="false" wrapText="true" prefHeight="130"/>
+        </VBox>
+
+        <VBox spacing="6" styleClass="info-block">
+            <Label text="Session" styleClass="card-title-small"/>
+            <Label fx:id="sessionState" text="IDLE - start a session on the Dashboard"
+                   wrapText="true" styleClass="card-subtitle"/>
+        </VBox>
+
+        <Label fx:id="feedback" text="" wrapText="true" styleClass="feedback-label"/>
+    </VBox>
+</ScrollPane>

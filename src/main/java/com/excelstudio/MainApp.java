@@ -1,5 +1,10 @@
 package com.excelstudio;
 
+import java.net.URL;
+import java.util.Objects;
+
+import com.excelstudio.app.AppServices;
+import com.excelstudio.config.AppConfig;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -13,9 +18,13 @@ public class MainApp extends Application {
     @Override
     public void start(Stage stage) throws Exception {
         LOGGER.info("Starting Excel Automation Studio");
-        FXMLLoader loader = new FXMLLoader(MainApp.class.getResource("/fxml/dashboard.fxml"));
-        Scene scene = new Scene(loader.load(), 1100, 700);
-        scene.getStylesheets().add(MainApp.class.getResource("/css/app.css").toExternalForm());
+        AppServices.initialize(AppConfig.loadDefault());
+
+        URL fxml = requireResource("/fxml/dashboard.fxml");
+        URL stylesheet = requireResource("/css/app.css");
+
+        Scene scene = new Scene(new FXMLLoader(fxml).load(), 1100, 700);
+        scene.getStylesheets().add(stylesheet.toExternalForm());
 
         stage.setTitle("Excel Automation Studio");
         stage.setMinWidth(900);
@@ -27,6 +36,14 @@ public class MainApp extends Application {
     @Override
     public void stop() {
         LOGGER.info("Stopping Excel Automation Studio");
+        AppServices.get().shutdown();
+    }
+
+    private static URL requireResource(String path) {
+        URL resource = Objects.requireNonNull(
+                MainApp.class.getResource(path),
+                () -> "Missing application resource: " + path);
+        return resource;
     }
 
     public static void main(String[] args) {

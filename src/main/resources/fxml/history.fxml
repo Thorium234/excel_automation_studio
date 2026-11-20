@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<ScrollPane xmlns="http://javafx.com/javafx/21"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.excelstudio.controller.HistoryController"
+            fitToWidth="true"
+            styleClass="scroll-area">
+    <VBox styleClass="content-card" spacing="14">
+        <Label text="Session history" styleClass="card-title"/>
+        <Label text="Every completed or stopped session writes a Markdown report with the real task outcomes."
+               wrapText="true" styleClass="card-subtitle"/>
+
+        <HBox spacing="8" alignment="CENTER_LEFT">
+            <Button text="Refresh" onAction="#refresh" styleClass="primary-button"/>
+            <Button text="Open reports folder" onAction="#openReportsFolder"
+                    styleClass="secondary-button"/>
+        </HBox>
+
+        <HBox spacing="14">
+            <ListView fx:id="reportList" prefWidth="280" prefHeight="420"/>
+            <TextArea fx:id="reportPreview" editable="false" wrapText="true"
+                      prefHeight="420" prefWidth="600"/>
+        </HBox>
+
+        <Label fx:id="feedback" text="" wrapText="true" styleClass="feedback-label"/>
+    </VBox>
+</ScrollPane>
