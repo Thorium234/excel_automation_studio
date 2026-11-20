@@ -53,6 +53,7 @@ public final class SessionManager {
     }
 
     public synchronized void pause() {
+        refreshDuration();
         requireActive();
         if (state == SessionState.PAUSED) {
             return;
@@ -62,33 +63,42 @@ public final class SessionManager {
     }
 
     public synchronized void resume() {
+        refreshDuration();
         requireState(SessionState.PAUSED, "resume");
         segmentStartNanos = ticker.nanoTime();
         transition(SessionState.RUNNING);
     }
 
     public synchronized void stop() {
+        refreshDuration();
         requireActive();
         accumulatedNanos = activeElapsedNanos();
         transition(SessionState.STOPPED);
     }
 
     public synchronized void complete() {
+        refreshDuration();
+        if (state == SessionState.COMPLETED) {
+            return;
+        }
         requireActive();
         accumulatedNanos = activeElapsedNanos();
         transition(SessionState.COMPLETED);
     }
 
     public synchronized void fail(String reason) {
+        refreshDuration();
         if (state == SessionState.FAILED) {
             return;
         }
+        requireActive();
         accumulatedNanos = activeElapsedNanos();
         transition(SessionState.FAILED);
     }
 
     public synchronized boolean record(TaskResult result) {
         Objects.requireNonNull(result, "result");
+        refreshDuration();
         if (state != SessionState.RUNNING) {
             return false;
         }
@@ -97,10 +107,12 @@ public final class SessionManager {
     }
 
     public synchronized SessionState state() {
+        refreshDuration();
         return state;
     }
 
     public synchronized boolean isRunning() {
+        refreshDuration();
         return state == SessionState.RUNNING;
     }
 
@@ -113,15 +125,18 @@ public final class SessionManager {
     }
 
     public synchronized Duration elapsed() {
+        refreshDuration();
         return Duration.ofNanos(activeElapsedNanos());
     }
 
     public synchronized Duration remaining() {
+        refreshDuration();
         Duration remaining = config.duration().minus(elapsed());
         return remaining.isNegative() ? Duration.ZERO : remaining;
     }
 
     public synchronized SessionStats stats() {
+        refreshDuration();
         return SessionStats.from(state, elapsed(), remaining(), results);
     }
 
@@ -134,6 +149,18 @@ public final class SessionManager {
             return accumulatedNanos + Math.max(0, ticker.nanoTime() - segmentStartNanos);
         }
         return accumulatedNanos;
+    }
+
+    private void refreshDuration() {
+        if (state != SessionState.RUNNING) {
+            return;
+        }
+        long elapsedNanos = activeElapsedNanos();
+        long durationNanos = config.duration().toNanos();
+        if (elapsedNanos >= durationNanos) {
+            accumulatedNanos = durationNanos;
+            transition(SessionState.COMPLETED);
+        }
     }
 
     private void requireActive() {

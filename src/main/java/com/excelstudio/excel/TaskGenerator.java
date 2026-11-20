@@ -63,8 +63,8 @@ public final class TaskGenerator {
         for (int column = 0; column < data.columnCount(); column++) {
             task.rule(cellValue(0, column, data.columns().get(column)));
         }
-        for (int row = 0; row < Math.min(3, data.rowCount()); row++) {
-            for (int column = 0; column < Math.min(3, data.columnCount()); column++) {
+        for (int row = 0; row < data.rowCount(); row++) {
+            for (int column = 0; column < data.columnCount(); column++) {
                 task.rule(cellValue(row + 1, column, data.value(row, column)));
             }
         }

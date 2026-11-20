@@ -202,6 +202,13 @@ public final class AppServices {
             SessionState state = current.state();
             if (state == SessionState.RUNNING || state == SessionState.PAUSED) {
                 current.stop();
+                try {
+                    Path report = reports.writeSessionReport(current.config(), current.stats(),
+                            current.results(), Instant.now());
+                    log.add("Stopped session report saved to " + report);
+                } catch (IOException e) {
+                    log.add("Unable to save stopped-session report: " + e.getMessage());
+                }
             }
         }
         workers.shutdown();

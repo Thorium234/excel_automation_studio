@@ -157,6 +157,36 @@ class SessionManagerTest {
         assertEquals(0.5, progress, 0.001);
     }
 
+    @Test
+    void configuredDurationAutomaticallyCompletesAndStopsRecording() {
+        session.start();
+        ticker.advance(Duration.ofMinutes(30));
+
+        assertEquals(SessionState.COMPLETED, session.state());
+        assertEquals(Duration.ZERO, session.remaining());
+        assertFalse(session.record(result(TaskStatus.PASSED)));
+    }
+
+    @Test
+    void pausedTimeDoesNotConsumeConfiguredDuration() {
+        session.start();
+        ticker.advance(Duration.ofMinutes(10));
+        session.pause();
+        ticker.advance(Duration.ofMinutes(30));
+
+        assertEquals(Duration.ofMinutes(10), session.elapsed());
+        assertEquals(SessionState.PAUSED, session.state());
+        assertEquals(Duration.ofMinutes(20), session.remaining());
+    }
+
+    @Test
+    void failRequiresAnActiveSession() {
+        assertThrows(IllegalStateException.class, () -> session.fail("failure"));
+        session.start();
+        session.fail("failure");
+        assertEquals(SessionState.FAILED, session.state());
+    }
+
     private static TaskResult result(TaskStatus status) {
         return TaskResult.of("id", "task", status, java.time.Instant.now(),
                 java.time.Instant.now(), null, ValidationResult.passed(1), null);

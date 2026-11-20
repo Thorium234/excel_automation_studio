@@ -59,11 +59,27 @@ class TaskGeneratorTest {
         ExcelTask task = generator.generate(TaskCategory.DATA_ENTRY, TaskDifficulty.BASIC);
         Dataset dataset = task.dataset().orElseThrow();
 
-        assertTrue(task.rules().stream().anyMatch(rule ->
-                rule.type() == ValidationType.CELL_VALUE
-                        && rule.row() == 0
-                        && rule.column() == 0
-                        && dataset.columns().get(0).equals(rule.expected())));
+        for (int column = 0; column < dataset.columnCount(); column++) {
+            int expectedColumn = column;
+            assertTrue(task.rules().stream().anyMatch(rule ->
+                    rule.type() == ValidationType.CELL_VALUE
+                            && rule.row() == 0
+                            && rule.column() == expectedColumn
+                            && dataset.columns().get(expectedColumn).equals(rule.expected())));
+        }
+        for (int row = 0; row < dataset.rowCount(); row++) {
+            for (int column = 0; column < dataset.columnCount(); column++) {
+                int validationRow = row + 1;
+                int expectedColumn = column;
+                int expectedRow = row;
+                assertTrue(task.rules().stream().anyMatch(rule ->
+                        rule.type() == ValidationType.CELL_VALUE
+                                && rule.row() == validationRow
+                                && rule.column() == expectedColumn
+                                && dataset.value(expectedRow, expectedColumn).toString().equals(String.valueOf(rule.expected()))),
+                        "Missing DATA_ENTRY rule at row " + validationRow + ", column " + expectedColumn);
+            }
+        }
     }
 
     @Test
