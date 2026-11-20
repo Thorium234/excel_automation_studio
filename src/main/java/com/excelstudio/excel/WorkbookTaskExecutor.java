@@ -70,7 +70,7 @@ public final class WorkbookTaskExecutor implements TaskExecutor {
             } else {
                 workbook = new XSSFWorkbook();
                 Sheet sheet = workbook.createSheet(task.sheetName());
-                if (task.category() != TaskCategory.DATA_ENTRY && task.dataset().isPresent()) {
+                if (task.dataset().isPresent()) {
                     workbooks.writeDataset(workbook, sheet, task.dataset().orElseThrow());
                 }
             }
@@ -91,6 +91,11 @@ public final class WorkbookTaskExecutor implements TaskExecutor {
         Sheet practice = workbook.getSheet(task.sheetName());
         if (practice == null) {
             practice = workbook.createSheet(task.sheetName());
+        }
+        if (task.category() == TaskCategory.DATA_ENTRY && task.dataset().isPresent()) {
+            workbook.removeSheetAt(workbook.getSheetIndex(practice));
+            practice = workbook.createSheet(task.sheetName());
+            workbooks.writeDataset(workbook, practice, task.dataset().orElseThrow());
         }
 
         CellStyle dateStyle = workbooks.dateStyle(workbook);

@@ -105,6 +105,20 @@ class AppServicesTest {
 
         assertFalse(services.session().isRunning());
         assertEquals(SessionState.STOPPED, services.session().state());
+        assertTrue(services.reports().size() >= 1);
+        assertTrue(services.reports().get(0).getFileName().toString().endsWith(".md"));
+    }
+
+    @Test
+    void shutdownContinuesAndLogsWhenStoppedSessionReportCannotBeWritten() throws Exception {
+        Files.writeString(temp.resolve("reports"), "blocking file");
+        services.startSession(SessionConfig.ofMinutes(30));
+
+        services.shutdown();
+
+        assertEquals(SessionState.STOPPED, services.session().state());
+        assertTrue(services.log().entries().stream()
+                .anyMatch(entry -> entry.contains("Unable to save stopped-session report")));
     }
 
     @Test
